@@ -6,13 +6,13 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 23:38:11 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/22 23:49:51 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/23 01:19:34 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-int	len_of_double_ptr(void **ptr)
+static int	len_of_double_ptr(char **ptr)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ int	len_of_double_ptr(void **ptr)
 	return (i);
 }
 
-int	check_line(char **splt, t_scene *scene)
+static int	check_line(char **splt, t_scene *scene)
 {
 	int	n_splt;
 
@@ -41,8 +41,8 @@ int	check_line(char **splt, t_scene *scene)
 		return (1);
 	if (ft_strncmp(splt[0], "cy", 2) == 0 && is_line_cylinder(splt, scene, n_splt))
 		return (1);
-	if (ft_strncmp(splt[0], "cn", 2) == 0 && is_line_cone(splt, scene, n_splt))
-		return (1);
+	// if (ft_strncmp(splt[0], "cn", 2) == 0 && is_line_cone(splt, scene, n_splt))
+	// 	return (1);
 	// if (ft_strncmp(splt[0], "sq", 2) == 0 && is_line_square(splt, scene, n_splt))
 	// 	return (1);
 	// if (ft_strncmp(splt[0], "tr", 2) == 0 && is_line_triangle(splt, scene, n_splt))
@@ -50,7 +50,7 @@ int	check_line(char **splt, t_scene *scene)
 	return (-1);
 }
 
-int	count_objects(t_scene *scene)
+static int	count_objects(t_scene *scene)
 {
 	if (scene->n_A > 1 || scene->n_C > 1)
 		return (-1);
@@ -62,7 +62,7 @@ int	count_objects(t_scene *scene)
 	return (1);
 }
 
-void	print_double_char(char **v_str)
+static void	print_double_char(char **v_str)
 {
 	int	i;
 
@@ -84,9 +84,10 @@ int	assign_scene(t_scene *scene, int fd)
 	success = 1;
 	line = NULL;
 	splitted = NULL;
-	while (get_next_line(&line, fd) == 1 && success)
+	line = get_next_line(fd);
+	while (line && success > 0)
 	{
-		splitted = ft_split_set(line, "\t\f\r\v ,");
+		splitted = ft_split(line, ' ');
 
 		print_double_char(splitted);
 
@@ -95,10 +96,12 @@ int	assign_scene(t_scene *scene, int fd)
 
 		free(line);
 		free_splitted(&splitted);
+		line = get_next_line(fd);
 	}
 	if (line)
 		free(line);
 	if (splitted)
 		free_splitted(&splitted);
+	printf("end of while assign_scene, success = %d\n", success);
 	return (success);
 }

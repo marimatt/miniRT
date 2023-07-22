@@ -71,7 +71,4 @@ void	ft_draw(t_param *param);
 // parse
 int		assign_scene(t_scene *scene, int fd);
 
-// spurious
-float	ft_parse_float(char *str);
-
 #endif

@@ -33,7 +33,7 @@ LIBS	=	libft/libft.a	mlx_linux/libmlx_Linux.a
 TEST_NAME		=	test
 TEST_SRCS		=	./test.c\
 					./src/errors.c ./src/memory.c \
-					./src/parse_scene.c ./src/parse_geometry.c \
+					./src/parse_rt.c ./src/parse_scene.c ./src/parse_geometry.c \
 					$(wildcard ./scene/*.c)\
 					$(wildcard ./geometry/*.c)\
 
