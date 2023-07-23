@@ -44,7 +44,7 @@ typedef struct s_param{
 	int				endian;
 	int				width;
 	int				height;
-	t_scene			*scene;
+	t_scene			scene;
 }					t_param;
 
 // errors
@@ -66,7 +66,7 @@ int		hooks_keys(int key, void *param);
 int		hook_mouse(int button, int x, int y, t_param *p);
 
 // draw
-void	ft_draw(t_param *param);
+void	ft_draw(t_param *param, t_screen *screen);
 
 // parse
 int		assign_scene(t_scene *scene, int fd);

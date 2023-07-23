@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 00:30:21 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/22 23:54:38 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/24 01:17:32 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,14 @@ void	free_list_content(void *content)
 
 void	free_scene(t_param *param)
 {
-	ft_lstclear(&(param->scene->lights), free_list_content);
-	ft_lstclear(&(param->scene->cameras), free_list_content);
-	ft_lstclear(&(param->scene->ambients), free_list_content);
-	ft_lstclear(&(param->scene->spheres), free_list_content);
-	ft_lstclear(&(param->scene->planes), free_list_content);
-	ft_lstclear(&(param->scene->cylinders), free_list_content);
-	ft_lstclear(&(param->scene->cones), free_list_content);
-	// ft_lstclear(param->scene->squares, free_list_content);
-	// ft_lstclear(param->scene->triangles, free_list_content);
-	free(param->scene);
+	ft_lstclear(&(param->scene.lights), free_list_content);
+	ft_lstclear(&(param->scene.ambients), free_list_content);
+	ft_lstclear(&(param->scene.spheres), free_list_content);
+	ft_lstclear(&(param->scene.planes), free_list_content);
+	ft_lstclear(&(param->scene.cylinders), free_list_content);
+	ft_lstclear(&(param->scene.cones), free_list_content);
+	// ft_lstclear(&(param->scene.squares), free_list_content);
+	// ft_lstclear(&(param->scene.triangles), free_list_content);
 }
 
 void	free_splitted(char ***splitted)

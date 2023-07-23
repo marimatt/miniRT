@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:14:10 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/23 01:10:18 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/24 01:04:35 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdio.h>
 
 #define FT_IS_BONUS 0
+#define XY_RATIO 1
 
 typedef struct s_ambient{
 	float	ratio;
@@ -36,6 +37,16 @@ typedef struct s_light{
 	t_color		color;
 }				t_light;
 
+typedef struct s_screen{
+	t_vector	central;
+	t_vector	u;
+	t_vector	v;
+	float		t_u_min;
+	float		t_v_min;
+	float		du;
+	float		dv;
+}				t_screen;
+
 typedef struct s_scene{
 	t_list		*planes;
 	int			n_pl;
@@ -51,10 +62,11 @@ typedef struct s_scene{
 	// int			n_tr;
 	t_list		*lights;
 	int			n_L;
-	t_list		*cameras;
-	int			n_C;
 	t_list		*ambients;
 	int			n_A;
+	t_camera	camera;
+	int			n_C;
+	t_screen	screen;
 }				t_scene;
 
 int		is_line_ambient(char **splt, t_scene *scene, int n_splt);

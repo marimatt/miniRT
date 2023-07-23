@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 23:38:11 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/23 01:19:34 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/24 01:15:51 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,9 @@ int	assign_scene(t_scene *scene, int fd)
 	while (line && success > 0)
 	{
 		splitted = ft_split(line, ' ');
-
 		print_double_char(splitted);
-
 		if (check_line(splitted, scene) < 0 || count_objects(scene) < 0)
 			success = -1;
-
 		free(line);
 		free_splitted(&splitted);
 		line = get_next_line(fd);

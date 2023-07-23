@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 18:10:22 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/02 00:15:54 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/24 01:17:48 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	hook_mouse(int button, int x, int y, t_param *p)
 	}
 	if (button == 1 || button == 2 || button == 4 || button == 5)
 	{
-		ft_draw(p);
+		ft_draw(p, &(p->scene.screen));
 		mlx_put_image_to_window(p->mlx_ptr, p->win_ptr, p->img, 0, 0);
 	}
 	return (0);
@@ -62,7 +62,7 @@ int	hooks_keys(int key, void *param)
 		// p->y += 0.2 * p->dy;
 	if (key == 124 || key == 125 || key == 126 || key == 123 || key == 49)
 	{
-		ft_draw(p);
+		ft_draw(p,  &(p->scene.screen));
 		mlx_put_image_to_window(p->mlx_ptr, p->win_ptr, p->img, 0, 0);
 	}
 	return (0);

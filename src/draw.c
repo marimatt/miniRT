@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 22:42:45 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/23 01:20:48 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/24 01:20:43 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,36 @@ void	my_mlx_pixel_put(t_param *p, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	ft_draw(t_param *param)
+int	get_pixel_color(t_param *param, t_vector *ray)
 {
-	int	i;
-	int	j;
-	int	color;
+	(void)param;
+	(void)ray;
+	return (create_trgb(255, 255, 255, 255));	
+}
 
-	i = 0;
-	while (i < param->width)
+void	ft_draw(t_param *param, t_screen *screen)
+{
+	t_vector	ray;
+	int			i;
+	int			j;
+
+	i = -1;
+	while (++i < param->width)
 	{
-		j = 0;
-		while (j < param->height)
+		j = -1;
+		while (++j < param->height)
 		{
-			color = create_trgb(i % 256, j % 256, 0, 0);
-			my_mlx_pixel_put(param, i, j, color);
-			j++;
+			ray.x =	(screen->central.x - param->scene.camera.position.x) + \
+							(screen->t_u_min + i * screen->du) * screen->u.x + \
+							(screen->t_v_min + j * screen->dv) * screen->v.x;
+			ray.y =	(screen->central.y - param->scene.camera.position.y) + \
+							(screen->t_u_min + i * screen->du) * screen->u.y + \
+							(screen->t_v_min + j * screen->dv) * screen->v.y;
+			ray.z =	(screen->central.z - param->scene.camera.position.z) + \
+							(screen->t_u_min + i * screen->du) * screen->u.z + \
+							(screen->t_v_min + j * screen->dv) * screen->v.z;
+			normalize_vector(&ray, sqrt(get_squared_norm(&ray)));
+			my_mlx_pixel_put(param, i, j, get_pixel_color(param, &ray));
 		}
-		i++;
 	}
 }
