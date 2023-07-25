@@ -64,6 +64,11 @@ typedef struct s_ray{
 	float		t;
 }				t_ray;
 
+
+// TO DELETE
+void	print_vector(t_vector v, const char *str);
+
+
 // errors
 int		err_close_fd_with_ret(const char *err, int fd, int ret_val);
 void	error_and_exit(char *msg);
@@ -96,5 +101,16 @@ int		assign_scene(t_scene *scene, int fd);
 void	ray_trace(t_param *param, t_ray *ray);
 
 float	float_abs(float f);
+
+// intersections
+float	intersect_plane(t_param *param, t_ray *ray, t_plane *plane);
+float	intersect_sphere(t_param *param, t_ray *ray, t_sphere *sphere);
+float	intersect_cylinder(t_param *param, t_ray *ray, t_cylinder *cylinder);
+
+// colors
+t_color	get_plane_color(t_param *param, t_ray *ray, t_plane *pl);
+t_color	get_sphere_color(t_param *param, t_ray *ray, t_sphere *sp);
+t_color	get_cylinder_color(t_param *param, t_ray *ray, t_cylinder *cy);
+t_color	get_cone_color(t_param *param, t_ray *ray, t_cone *cn);
 
 #endif

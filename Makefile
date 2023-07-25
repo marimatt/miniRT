@@ -21,7 +21,7 @@ OBJS	=	${SRCS:.c=.o}
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	#-Wall -Wextra -Werror
 
 INCLUDES=	-Ilibft -I/usr/include -Imlx_linux -O3
 
@@ -53,12 +53,12 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(INCLUDES) $(LINKS) $(LIBS)
 	@echo "-Compilation completed- Run ./"$(NAME) 
 
-# all:	${TEST_NAME}
+test:	${TEST_NAME}
 
-# $(TEST_NAME): $(TEST_OBJS)
-# 	@make -C libft
-# 	$(CC) $(TEST_OBJS) -o $(TEST_NAME) $(TEST_INCLUDES) $(TEST_LINKS) $(TEST_LIBS)
-# 	@echo "-Compilation completed- Run ./"$(TEST_NAME) 
+$(TEST_NAME): $(TEST_OBJS)
+	@make -C libft
+	$(CC) $(TEST_OBJS) -o $(TEST_NAME) $(TEST_INCLUDES) $(TEST_LINKS) $(TEST_LIBS)
+	@echo "-Compilation completed- Run ./"$(TEST_NAME) 
 
 clean:
 		rm -f $(OBJS) $(TEST_OBJS)

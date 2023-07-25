@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 22:39:51 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/25 01:22:16 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:07:14 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ void	set_screen(t_param *param, t_screen *screen)
 	screen->u.x = - param->scene.camera.orientation.y;
 	screen->u.y = + param->scene.camera.orientation.x;
 	screen->u.z = 0.0f;
-	screen->v = cross_product(&(screen->u), &param->scene.camera.orientation);
+	screen->v = cross_product(&(screen->u), &(param->scene.camera.orientation));
+
 	normalize_vector(&(screen->u), sqrt(get_squared_norm(&(screen->u))));
 	normalize_vector(&(screen->v), sqrt(get_squared_norm(&(screen->v))));
+
 	screen->central.x = param->scene.camera.position.x + param->scene.camera.orientation.x;
 	screen->central.y = param->scene.camera.position.y + param->scene.camera.orientation.y;
 	screen->central.z = param->scene.camera.position.z + param->scene.camera.orientation.z;
@@ -60,18 +62,25 @@ void	set_screen(t_param *param, t_screen *screen)
 	screen->t_v_min = screen->t_u_min * XY_RATIO;
 	screen->du = 2 * float_abs(screen->t_u_min) / (float)FT_CANVAS_WIDTH;
 	screen->dv = 2 * float_abs(screen->t_v_min) / (float)FT_CANVAS_HEIGHT;
+
+	print_vector(param->scene.camera.orientation, "camera");
+	print_vector(screen->u, "screen->u");
+	print_vector(screen->v, "screen->v");
+	printf("screen->du = %f\n", screen->du);
+	printf("screen->dv = %f\n", screen->dv);
+	printf("screen->t_u_min = %f\n", screen->t_u_min);
+	printf("screen->t_v_min = %f\n", screen->t_v_min);
 }
 
-int	add_to_all_objects(t_scene *scene, t_list *ptr, int id, int i)
+int	add_to_all_objects(t_scene *scene, t_list *ptr, int id, int idx)
 {
-	while (ptr && i++ > -2)
+	while (ptr && idx++ > -2)
 	{
-		scene->all_obj[i].obj = ptr->content;
-		scene->all_obj[i].id = id;
-		scene->all_obj[i].t = -1;
+		scene->all_obj[idx].obj = ptr->content;
+		scene->all_obj[idx].id = id;
 		ptr = (void *)(ptr->next);
 	}
-	return (i);
+	return (idx);
 }
 
 int	set_obj_arr(t_scene *scene)
@@ -84,7 +93,7 @@ int	set_obj_arr(t_scene *scene)
 	if (!scene->all_obj)
 		return (-1);
 	scene->tot_obj = tot_num;
-	idx = 0;
+	idx = -1;
 	idx = add_to_all_objects(scene, scene->planes, ID_PL, idx);
 	idx = add_to_all_objects(scene, scene->spheres, ID_SP, idx);
 	idx = add_to_all_objects(scene, scene->cylinders, ID_CY, idx);

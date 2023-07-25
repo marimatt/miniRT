@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:14:10 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/25 02:03:18 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:19:50 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_scene{
 	// int			n_tr;
 	t_list		*lights;
 	int			n_L;
-	t_list		*ambients;
+	t_ambient	ambient;
 	int			n_A;
 	t_camera	camera;
 	int			n_C;

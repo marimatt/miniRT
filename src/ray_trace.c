@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 00:38:04 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/25 02:02:40 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:18:52 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,20 @@ t_vector	get_new_direction(t_param *param, t_ray *ray)
 
 void	update_ray_color(t_param *param, t_ray *ray)
 {
-	return ;
+	t_color	color;
+
+	if (ray->hit_obj_id == ID_PL)
+		color = get_plane_color(param, ray, ray->hit_obj);
+	else if (ray->hit_obj_id == ID_SP)
+		color = get_sphere_color(param, ray, ray->hit_obj);
+	else if (ray->hit_obj_id == ID_CY)
+		color = get_cylinder_color(param, ray, ray->hit_obj);
+	// else if (ray->hit_obj_id == ID_CN)
+	// 	color = get_cone_color(param, ray, ray->hit_obj);
+
+	ray->color.r += color.r;
+	ray->color.g += color.g;
+	ray->color.b += color.b;
 }
 
 void ray_trace(t_param *param, t_ray *ray)
@@ -58,13 +71,14 @@ void ray_trace(t_param *param, t_ray *ray)
 	while (counter > 0)
 	{
 		get_next_intersection(param, ray);
-		if (float_abs(ray->t - MAX_DIST) < 0.0000f)
+		if (ray->hit_obj_id < 0 || ray->t >= MAX_DIST)
 			break ;
+		ray->pos_hit = vector_composition(&ray->origin, &ray->direction, 1.0f, ray->t);
+		// printf("ray hit a %i at t %f in %f,%f,%f\n", ray->hit_obj_id, ray->t, ray->pos_hit.x, ray->pos_hit.y, ray->pos_hit.z);
+		// // ft_bump_and_texture(ray, _, data);
+		update_ray_color(param, ray);
 		// ray->origin = ray->pos_hit;
 		// ray->direction = get_new_direction(param, ray);
-		// ray->pos_hit = vector_composition(&ray->origin, &ray->direction, 1.0f, ray->t);
-		// // ft_bump_and_texture(ray, _, data);
-		// update_ray_color(param, ray);
 		counter--;
 	}
 	return ;

@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:52:11 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/25 01:22:50 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:05:38 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	my_quit(void *param)
 
 	p = (t_param *)param;
 	mlx_destroy_window(p->mlx_ptr, p->win_ptr);
-	free_scene(p);
+	// free_scene(p);
 	exit (0);
 	return (0);
 }
@@ -53,6 +53,11 @@ int	init_all(t_param *param, const char *file_name)
 	return (1);
 }
 
+void	print_vector(t_vector v, const char *str)
+{
+	printf("%s = %f, %f, %f\n", str, v.x, v.y, v.z);
+}
+
 int main(int argc, char **argv)
 {
 	t_param	param;
@@ -63,12 +68,21 @@ int main(int argc, char **argv)
 	if (init_all(&param, argv[1]) < 0)
 		exit(1);
 
+	int i = 0;
+	while (i < param.scene.tot_obj)
+	{
+		printf("i:%d, id = %d\n", i, param.scene.all_obj[i].id);
+		i++;
+	}
+
+	printf("before MLX_INIT\n");
 	param.mlx_ptr = mlx_init();
 	param.win_ptr = mlx_new_window(param.mlx_ptr, param.width, param.height, "MiniRT");
 	param.img = mlx_new_image(param.mlx_ptr, param.width, param.height);
 	param.addr = mlx_get_data_addr(param.img, &param.bits_per_pixel, \
 									&param.line_length, &param.endian);
 
+	printf("before ft_draw\n");
 	ft_draw(&param, &(param.scene.screen));
 	printf("after ft_draw\n");
 
@@ -83,5 +97,5 @@ int main(int argc, char **argv)
 	mlx_loop(param.mlx_ptr);
 	printf("after mlx_loop\n");
 
-	free_scene(&param);
+	// free_scene(&param);
 }

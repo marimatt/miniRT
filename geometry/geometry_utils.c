@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 01:05:26 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/23 23:14:46 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/26 00:38:36 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_vector	cross_product(t_vector *v1, t_vector *v2)
 
 	v3.x = v1->y * v2->z - v1->z * v2->y;
 	v3.y = v1->z * v2->x - v1->x * v2->z;
-	v3.z = v1->x * v2->y - v1->y * v2->z;
+	v3.z = v1->x * v2->y - v1->y * v2->x;
 	return (v3);
 }
 

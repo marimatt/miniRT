@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 22:42:45 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/25 00:53:31 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/26 00:56:45 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	create_trgb(unsigned char t, unsigned char r, \
 
 int	from_color_to_int(t_color c)
 {
-	return (create_trgb((int)c.a, (int)c.r, (int)c.g, (int)c.b));
+	return (create_trgb((int)255 * c.a, (int)255 * c.r, (int)255 * c.g, (int)255 * c.b));
 }
 
 void	my_mlx_pixel_put(t_param *p, int x, int y, int color)
@@ -31,15 +31,20 @@ void	my_mlx_pixel_put(t_param *p, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	set_ray_direction(t_screen *screen, t_vector *direction, int i, int j)
+void	reset_ray(t_screen *screen, t_ray *ray, int i, int j)
 {
-	direction->x += (screen->t_u_min + i * screen->du) * screen->u.x + \
-					(screen->t_v_min + j * screen->dv) * screen->v.x;
-	direction->y += (screen->t_u_min + i * screen->du) * screen->u.y + \
-					(screen->t_v_min + j * screen->dv) * screen->v.y;
-	direction->z += (screen->t_u_min + i * screen->du) * screen->u.z + \
-					(screen->t_v_min + j * screen->dv) * screen->v.z;
-	normalize_vector(direction, sqrt(get_squared_norm(direction)));
+	ray->direction.x += (screen->t_u_min + i * screen->du) * screen->u.x + \
+						(screen->t_v_min + j * screen->dv) * screen->v.x;
+	ray->direction.y += (screen->t_u_min + i * screen->du) * screen->u.y + \
+						(screen->t_v_min + j * screen->dv) * screen->v.y;
+	ray->direction.z += (screen->t_u_min + i * screen->du) * screen->u.z + \
+						(screen->t_v_min + j * screen->dv) * screen->v.z;
+	normalize_vector(&(ray->direction), sqrt(get_squared_norm(&(ray->direction))));
+	ray->color.r = 0.00000000f;
+	ray->color.g = 0.00000000f;
+	ray->color.b = 0.00000000f;
+	ray->hit_obj = NULL;
+	ray->hit_obj_id = -1;
 	return ;
 }
 
@@ -59,9 +64,11 @@ void	ft_draw(t_param *param, t_screen *screen)
 			ray.direction.x = screen->central.x - param->scene.camera.position.x;
 			ray.direction.y = screen->central.y - param->scene.camera.position.y;
 			ray.direction.z = screen->central.z - param->scene.camera.position.z;
-			set_ray_direction(screen, &(ray.direction), i, j);
+			reset_ray(screen, &ray, i, j);
 			ray_trace(param, &ray);
 			my_mlx_pixel_put(param, i, j, from_color_to_int(ray.color));
+			// break;
 		}
+		// break;
 	}
 }

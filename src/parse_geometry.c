@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 00:24:46 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/25 01:52:00 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/26 00:23:02 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	is_line_sphere(char **splt, t_scene *scene, int n_splt)
 		sphere->color.g < 0 || sphere->color.g > 255 || \
 		sphere->color.b < 0 || sphere->color.b > 255)
 	{
-		printf("error parsing file(4)\n");
+		printf("error parsing file(4), r = %f\n", sphere->radius);
 		exit(1);
 	}
 	assign_something(&(scene->spheres), (void *)sphere, scene->n_sp);

@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 01:40:49 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/25 02:06:53 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:02:40 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_vector	sub_vectors(t_vector *v1, t_vector *v2)
 
 float	intersect_plane(t_param *param, t_ray *ray, t_plane *plane)
 {
-
+	return (MAX_DIST);
 }
 
 float	intersect_sphere(t_param *param, t_ray *ray, t_sphere *sphere)
@@ -52,7 +52,7 @@ float	intersect_sphere(t_param *param, t_ray *ray, t_sphere *sphere)
 
 float	intersect_cylinder(t_param *param, t_ray *ray, t_cylinder *cylinder)
 {
-
+	return (MAX_DIST);
 }
 
 // float	intersect_cone(t_param *param, t_ray *ray, t_cone *cone)
