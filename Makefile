@@ -36,7 +36,6 @@ TEST_SRCS		=	./test.c\
 					./src/parse_rt.c ./src/parse_scene.c ./src/parse_geometry.c \
 					$(wildcard ./scene/*.c)\
 					$(wildcard ./geometry/*.c)\
-
 					# ./scene/*.c\
 					# ./geometry/*.c\
 

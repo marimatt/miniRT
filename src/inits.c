@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 22:39:51 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/24 01:20:24 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/25 01:22:16 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,15 @@ void	init_scene(t_scene *sc)
 	sc->planes = NULL;
 	sc->cylinders = NULL;
 	sc->cones = NULL;
-	// sc->squares = NULL;
-	// sc->triangles = NULL;
+	sc->all_obj = NULL;
 	sc->n_pl = 0;
 	sc->n_sp = 0;
 	sc->n_cy = 0;
-	// sc->n_sq = 0;
-	// sc->n_tr = 0;
 	sc->n_L = 0;
 	sc->n_C = 0;
 	sc->n_A = 0;
 	sc->n_cn = 0;
+	sc->tot_obj = 0;
 }
 
 int	init_param(t_param *param)
@@ -45,13 +43,6 @@ int	init_param(t_param *param)
 	param->width = FT_CANVAS_WIDTH;
 	param->height = FT_CANVAS_HEIGHT;
 	return (1);
-}
-
-float	float_abs(float f)
-{
-	if (f >= 0.00000000f)
-		return (f);
-	return(-f);	
 }
 
 void	set_screen(t_param *param, t_screen *screen)
@@ -71,25 +62,33 @@ void	set_screen(t_param *param, t_screen *screen)
 	screen->dv = 2 * float_abs(screen->t_v_min) / (float)FT_CANVAS_HEIGHT;
 }
 
-int	init_all(t_param *param, const char *file_name)
+int	add_to_all_objects(t_scene *scene, t_list *ptr, int id, int i)
 {
-	t_screen	screen;
-	int			fd;
+	while (ptr && i++ > -2)
+	{
+		scene->all_obj[i].obj = ptr->content;
+		scene->all_obj[i].id = id;
+		scene->all_obj[i].t = -1;
+		ptr = (void *)(ptr->next);
+	}
+	return (i);
+}
 
-	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
-		return(err_close_fd_with_ret("Error accessing file!\n", fd, -1));
+int	set_obj_arr(t_scene *scene)
+{
+	int		tot_num;
+	int		idx;
 
-	if (init_param(param) < 0)
-		return(err_close_fd_with_ret("Could not init scene!\n", fd, -1));
-
-	init_scene(&(param->scene));
-
-	if (assign_scene(&param->scene, fd) < 0)
-		return(err_close_fd_with_ret("Error parsing file!\n", fd, -1));
-
-	set_screen(param, &screen);
-	param->scene.screen = screen;
-	close(fd);
+	tot_num = scene->n_cy + scene->n_pl + scene->n_sp + FT_IS_BONUS * scene->n_cn;
+	scene->all_obj = (t_obj*)malloc(sizeof(t_obj) * tot_num);
+	if (!scene->all_obj)
+		return (-1);
+	scene->tot_obj = tot_num;
+	idx = 0;
+	idx = add_to_all_objects(scene, scene->planes, ID_PL, idx);
+	idx = add_to_all_objects(scene, scene->spheres, ID_SP, idx);
+	idx = add_to_all_objects(scene, scene->cylinders, ID_CY, idx);
+	if (FT_IS_BONUS)
+		idx = add_to_all_objects(scene, scene->cylinders, ID_CN, idx);
 	return (1);
 }

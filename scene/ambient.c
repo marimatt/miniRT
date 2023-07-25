@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 00:07:05 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/23 00:27:49 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/25 00:33:21 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	is_line_ambient(char **splt, t_scene *scene, int n_splt)
 	if (parse_color_string(splt[2], \
 		&(ambient->color.r), &(ambient->color.g), &(ambient->color.b)) < 0)
 	{
-		printf("error parsing file (2): colors : %d, %d, %d\n", ambient->color.r, ambient->color.g, ambient->color.b);
+		printf("error parsing file (2): colors : %f, %f, %f\n", ambient->color.r, ambient->color.g, ambient->color.b);
 		exit(1);
 	}
 	ambient->color.a = 255;

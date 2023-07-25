@@ -6,11 +6,18 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:52:11 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/24 01:16:55 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/25 01:22:50 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
+
+float	float_abs(float f)
+{
+	if (f >= 0.00000000f)
+		return (f);
+	return(-f);	
+}
 
 int	my_quit(void *param)
 {
@@ -21,6 +28,29 @@ int	my_quit(void *param)
 	free_scene(p);
 	exit (0);
 	return (0);
+}
+
+int	init_all(t_param *param, const char *file_name)
+{
+	t_screen	screen;
+	int			fd;
+
+	fd = open(file_name, O_RDONLY);
+	if (fd == -1)
+		return(err_close_fd_with_ret("Error accessing file!\n", fd, -1));
+
+	if (init_param(param) < 0)
+		return(err_close_fd_with_ret("Could not init scene!\n", fd, -1));
+
+	init_scene(&(param->scene));
+
+	if (assign_scene(&param->scene, fd) < 0 || set_obj_arr(&param->scene) < 0)
+		return(err_close_fd_with_ret("Error parsing file!\n", fd, -1));
+
+	set_screen(param, &screen);
+	param->scene.screen = screen;
+	close(fd);
+	return (1);
 }
 
 int main(int argc, char **argv)

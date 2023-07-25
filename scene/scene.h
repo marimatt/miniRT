@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:14:10 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/24 01:04:35 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/25 02:03:18 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ typedef struct s_screen{
 	float		dv;
 }				t_screen;
 
+typedef struct s_obj{
+	void		*obj;
+	int			id;
+}				t_obj;
+
 typedef struct s_scene{
 	t_list		*planes;
 	int			n_pl;
@@ -66,6 +71,8 @@ typedef struct s_scene{
 	int			n_A;
 	t_camera	camera;
 	int			n_C;
+	int			tot_obj;
+	t_obj		*all_obj;
 	t_screen	screen;
 }				t_scene;
 
@@ -77,7 +84,7 @@ int		is_line_plane(char **splt, t_scene *scene, int n_splt);
 int		is_line_sphere(char **splt, t_scene *scene, int n_splt);
 int		is_line_cylinder(char **splt, t_scene *scene, int n_splt);
 
-int		parse_color_string(char *rgb_string, int *r, int *g, int *b);
+int		parse_color_string(char *rgb_string, float *r, float *g, float *b);
 int		parse_vector_string(char *rgb_string, t_vector *vector);
 
 void	assign_something(t_list **last, void *content, int len);

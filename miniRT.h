@@ -27,6 +27,13 @@
 # define FT_IS_BONUS 0
 # define FT_CANVAS_WIDTH 500
 # define FT_CANVAS_HEIGHT 500
+# define MAX_REFLECTIONS 1
+# define MAX_DIST 10000.0f
+
+# define ID_PL 1
+# define ID_SP 2
+# define ID_CY 3
+# define ID_CN 4
 
 # define X_MOUSE_EVENT 4
 # define X_MOUSE_MASK (1L << 2)
@@ -47,6 +54,16 @@ typedef struct s_param{
 	t_scene			scene;
 }					t_param;
 
+typedef struct s_ray{
+	t_vector	origin;
+	t_vector	direction;
+	t_color		color;
+	t_vector	pos_hit;
+	int			hit_obj_id;
+	void		*hit_obj;
+	float		t;
+}				t_ray;
+
 // errors
 int		err_close_fd_with_ret(const char *err, int fd, int ret_val);
 void	error_and_exit(char *msg);
@@ -58,7 +75,11 @@ int		free_with_ret(void *ptr, int ret);
 void	free_list_content(void *content);
 
 // inits
-int		init_all(t_param *param, const char *file_name);
+int		init_param(t_param *param);
+void	init_scene(t_scene *sc);
+int		set_obj_arr(t_scene *scene);
+void	set_screen(t_param *param, t_screen *screen);
+
 
 // main
 int		my_quit(void *param);
@@ -70,5 +91,10 @@ void	ft_draw(t_param *param, t_screen *screen);
 
 // parse
 int		assign_scene(t_scene *scene, int fd);
+
+//
+void	ray_trace(t_param *param, t_ray *ray);
+
+float	float_abs(float f);
 
 #endif

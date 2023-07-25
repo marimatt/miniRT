@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 01:05:25 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/24 00:24:37 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/25 01:51:36 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ typedef struct s_vector{
 }				t_vector;
 
 typedef struct s_color{
-	int	r;
-	int	g;
-	int	b;
-	int a;
+	float	r;
+	float	g;
+	float	b;
+	float	a;
 }				t_color;
 
 typedef struct s_plane{
@@ -45,7 +45,7 @@ typedef struct s_cylinder{
 
 typedef struct s_sphere{
 	t_vector	position;
-	float		diameter;
+	float		radius;
 	t_color		color;
 }				t_sphere;
 
