@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 00:09:05 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/25 00:33:09 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:56:15 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,17 @@ int	is_line_light(char **splt, t_scene *scene, int n_splt)
 		printf("error parsing file (2): colors : %f, %f, %f\n", light->color.r, light->color.g, light->color.b);
 		exit(1);
 	}
-	if (light->ratio > 1.0f || light->ratio < 0.0f || \
+	if (light->ratio > 1.00000000f || light->ratio < 0.0f || \
 		light->color.r < 0 || light->color.r > 255 || \
 		light->color.g < 0 || light->color.g > 255 || \
 		light->color.b < 0 || light->color.b > 255)
 	{
-		printf("error parsing file(4)\n");
+		printf("Error\n parsing file (4): colors : %f, %f, %f, ratio = %f\n", light->color.r, light->color.g, light->color.b, light->ratio);
 		exit(1);
 	}
-	light->color.a = 255;
+	light->color.a = 1.0f;
 	assign_something(&(scene->lights), (void *)light, scene->n_L);
 	scene->n_L += 1;
+	printf("Success parsing light-->Position = %f, %f, %f; colors = %f, %f, %f; ratio = %f\n", light->position.x, light->position.y, light->position.z, light->color.r, light->color.g, light->color.b, light->ratio);
 	return (1);
 }

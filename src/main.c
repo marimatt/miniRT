@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:52:11 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/26 01:05:38 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:57:46 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,31 @@ int main(int argc, char **argv)
 		i++;
 	}
 
+	t_list *ptr;
+	ptr = param.scene.lights;
+	t_light *light;
+	while (ptr != NULL)
+	{
+		light = ptr->content;
+		printf("light : %f, %f, %f, ratio = %f\n", light->color.r, light->color.g, light->color.b, light->ratio);
+		ptr = ptr->next;
+	}
+
+	ptr = param.scene.spheres;
+	t_sphere *sp;
+	while (ptr != NULL)
+	{
+		sp = ptr->content;
+		printf("sp : %f, %f, %f, radius = %f\n", sp->position.x, sp->position.y, sp->position.z, sp->radius);
+		ptr = ptr->next;
+	}
+
 	printf("before MLX_INIT\n");
 	param.mlx_ptr = mlx_init();
 	param.win_ptr = mlx_new_window(param.mlx_ptr, param.width, param.height, "MiniRT");
 	param.img = mlx_new_image(param.mlx_ptr, param.width, param.height);
 	param.addr = mlx_get_data_addr(param.img, &param.bits_per_pixel, \
 									&param.line_length, &param.endian);
-
 	printf("before ft_draw\n");
 	ft_draw(&param, &(param.scene.screen));
 	printf("after ft_draw\n");

@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 00:21:28 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/26 00:28:14 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:15:40 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,17 @@ static int	ft_to_power(int base, int pwr)
 	return (res);
 }
 
-static int	ft_atoi_not_nl(char **s_ptr)
+static int	ft_atoi_not_nl_no_sign(char **s_ptr, int *sign)
 {
 	int		res;
-	int		sign;
 
 	res = 0;
-	sign = 1;
 	while (ft_isspace_not_nl(**s_ptr))
 		(*s_ptr)++;
 	if (**s_ptr == '+' || **s_ptr == '-')
 	{
 		if (**s_ptr == '-')
-			sign *= -1;
+			*sign = -1;
 		(*s_ptr)++;
 	}
 	while (**s_ptr >= '0' && **s_ptr <= '9')
@@ -50,15 +48,17 @@ static int	ft_atoi_not_nl(char **s_ptr)
 		res += **s_ptr - '0';
 		(*s_ptr)++;
 	}
-	return (res * sign);
+	return (res);
 }
 
 float	ft_atof(char *str)
 {
 	float	number;
 	int		counter;
+	int		sign;
 
-	number = (float)ft_atoi_not_nl(&str);
+	sign = 1;
+	number = (float)ft_atoi_not_nl_no_sign(&str, &sign);
 	if (*str == '.')
 	{
 		str++;
@@ -67,7 +67,10 @@ float	ft_atof(char *str)
 		{
 			number += (float)(*str - '0') / ft_to_power(10, counter);
 			str++;
+			counter++;
 		}
 	}
-	return (number);
+	if (sign > 0)
+		return (number);
+	return (-number);
 }

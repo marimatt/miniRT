@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 23:38:11 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/25 01:08:42 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:08:35 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	check_line(char **splt, t_scene *scene)
 	return (-1);
 }
 
-static int	count_ects(t_scene *scene)
+static int	count_objects(t_scene *scene)
 {
 	if (scene->n_A > 1 || scene->n_C > 1)
 		return (-1);
@@ -83,7 +83,7 @@ int	assign_scene(t_scene *scene, int fd)
 	{
 		splitted = ft_split(line, ' ');
 		print_double_char(splitted);
-		if (check_line(splitted, scene) < 0 || count_ects(scene) < 0)
+		if (check_line(splitted, scene) < 0 || count_objects(scene) < 0)
 			success = -1;
 		free(line);
 		free_splitted(&splitted);

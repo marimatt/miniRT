@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 00:38:04 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/26 01:18:52 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/28 01:27:03 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,10 @@ void	get_next_intersection(t_param *param, t_ray *ray)
 	}
 }
 
-t_vector	get_new_direction(t_param *param, t_ray *ray)
+void	update_ray_color(t_param *param, t_ray *ray, int counter)
 {
-	return (ray->direction);
-}
-
-void	update_ray_color(t_param *param, t_ray *ray)
-{
-	t_color	color;
+	t_color		color;
+	float		reflect;
 
 	if (ray->hit_obj_id == ID_PL)
 		color = get_plane_color(param, ray, ray->hit_obj);
@@ -58,28 +54,56 @@ void	update_ray_color(t_param *param, t_ray *ray)
 	// else if (ray->hit_obj_id == ID_CN)
 	// 	color = get_cone_color(param, ray, ray->hit_obj);
 
-	ray->color.r += color.r;
-	ray->color.g += color.g;
-	ray->color.b += color.b;
+	if (counter > 0)
+	{
+		reflect = 0.001f * exp(-counter / 2);
+		ray->color.r = (ray->color.r * (1.0f - reflect) + color.r * reflect);
+		ray->color.g = (ray->color.g * (1.0f - reflect) + color.g * reflect);
+		ray->color.b = (ray->color.b * (1.0f - reflect) + color.b * reflect);
+	}
+	else
+		ray->color = color;
+}
+
+void	vector_scalar_mult(t_vector *v, float scalar)
+{
+	v->x *= scalar;
+	v->y *= scalar;
+	v->z *= scalar;
 }
 
 void ray_trace(t_param *param, t_ray *ray)
 {
-	int	counter;
+	int		counter;
+	float	factor;
 
-	counter = MAX_REFLECTIONS;
-	while (counter > 0)
+	counter = 0;
+	while (counter < MAX_REFLECTIONS)
 	{
 		get_next_intersection(param, ray);
+
 		if (ray->hit_obj_id < 0 || ray->t >= MAX_DIST)
 			break ;
-		ray->pos_hit = vector_composition(&ray->origin, &ray->direction, 1.0f, ray->t);
+
+		ray->pos_hit = vector_composition(&ray->origin, &ray->direction, 1.0f, 0.9999 *ray->t);
+
+		update_ray_color(param, ray, counter);
 		// printf("ray hit a %i at t %f in %f,%f,%f\n", ray->hit_obj_id, ray->t, ray->pos_hit.x, ray->pos_hit.y, ray->pos_hit.z);
-		// // ft_bump_and_texture(ray, _, data);
-		update_ray_color(param, ray);
-		// ray->origin = ray->pos_hit;
-		// ray->direction = get_new_direction(param, ray);
-		counter--;
+
+		factor = 2.0f * dot_product(&(ray->normal), &(ray->direction));
+
+		vector_scalar_mult(&(ray->normal), factor);
+
+		ray->direction = sub_vectors(&(ray->direction), &(ray->normal));
+
+		normalize_vector(&(ray->direction), sqrt(dot_product(&(ray->direction), &(ray->direction))));
+
+		ray->origin = ray->pos_hit;
+		ray->hit_obj = NULL;
+		ray->hit_obj_id = -1;
+
+		counter++;
+		// printf("counter = %d\n", counter);
 	}
 	return ;
 }

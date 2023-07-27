@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 22:42:45 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/26 00:56:45 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/28 01:23:47 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,19 @@ int	create_trgb(unsigned char t, unsigned char r, \
 	return (*(int *)(unsigned char [4]){b, g, r, t});
 }
 
-int	from_color_to_int(t_color c)
+int	from_color_to_int(t_color *c)
 {
-	return (create_trgb((int)255 * c.a, (int)255 * c.r, (int)255 * c.g, (int)255 * c.b));
+	float	m;
+	float	s;
+
+	s = c->r + c->g + c->b;
+	// c->r /= s;
+	// c->g /= s;
+	// c->b /= s;
+	m = 1.0f; //max_float(c->r, max_float(c->g, c->b));
+	// if (m > 1.0f)
+	// 	m = 1.0f;
+	return (create_trgb((int)255 * c->a, (int)255 * c->r / m, (int)255 * c->g / m, (int)255 * c->b / m));
 }
 
 void	my_mlx_pixel_put(t_param *p, int x, int y, int color)
@@ -54,21 +64,19 @@ void	ft_draw(t_param *param, t_screen *screen)
 	int		i;
 	int		j;
 
-	ray.origin = param->scene.camera.position;
 	i = -1;
 	while (++i < param->width)
 	{
 		j = -1;
 		while (++j < param->height)
 		{
+			ray.origin = param->scene.camera.position;
 			ray.direction.x = screen->central.x - param->scene.camera.position.x;
 			ray.direction.y = screen->central.y - param->scene.camera.position.y;
 			ray.direction.z = screen->central.z - param->scene.camera.position.z;
 			reset_ray(screen, &ray, i, j);
 			ray_trace(param, &ray);
-			my_mlx_pixel_put(param, i, j, from_color_to_int(ray.color));
-			// break;
+			my_mlx_pixel_put(param, i, j, from_color_to_int(&(ray.color)));
 		}
-		// break;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 01:40:49 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/26 01:02:40 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/27 22:52:56 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ float	intersect_sphere(t_param *param, t_ray *ray, t_sphere *sphere)
 	half_b = dot_product(&(ray->direction), &v_dist);
 	c = dot_product(&v_dist, &v_dist) - (sphere->radius * sphere->radius);
 	delta = half_b * half_b - c;
-	if (delta < 0.00001)
+	if (delta < 0.00000000f)
 		return (MAX_DIST);
 	delta = sqrtf(delta);
-	t = -half_b - sqrtf(delta);
-	if (t < 0.00000f)
-		t = -half_b + sqrtf(delta);
-	if (t < 0.00000f)
+	t = -half_b - delta;
+	if (t < 0.00000000f)
+		t = -half_b + delta;
+	if (t < 0.00000000f)
 		return (MAX_DIST);
 	return (t);
 }

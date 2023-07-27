@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 22:44:55 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/25 00:32:13 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:20:06 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ int	parse_color_string(char *rgb_string, float *r, float *g, float *b)
 	while (splitted[i] && i < 3)
 	{
 		if (i == 0)
-			*r = ft_atof(splitted[i]);
+			*r = ft_atof(splitted[i]) / 255.0f;
 		else if (i == 1)
-			*g = ft_atof(splitted[i]);
+			*g = ft_atof(splitted[i]) / 255.0f;
 		else if (i == 2)
-			*b = ft_atof(splitted[i]);
+			*b = ft_atof(splitted[i]) / 255.0f;
 		free(splitted[i]);
 		i++;
 	}

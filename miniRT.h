@@ -25,10 +25,11 @@
 # include "scene/scene.h"
 
 # define FT_IS_BONUS 0
-# define FT_CANVAS_WIDTH 500
-# define FT_CANVAS_HEIGHT 500
-# define MAX_REFLECTIONS 1
+# define FT_CANVAS_WIDTH 750
+# define FT_CANVAS_HEIGHT 750
+# define MAX_REFLECTIONS 50
 # define MAX_DIST 10000.0f
+# define EYE_DIST 0.1f
 
 # define ID_PL 1
 # define ID_SP 2
@@ -59,6 +60,7 @@ typedef struct s_ray{
 	t_vector	direction;
 	t_color		color;
 	t_vector	pos_hit;
+	t_vector	normal;
 	int			hit_obj_id;
 	void		*hit_obj;
 	float		t;
@@ -99,18 +101,20 @@ int		assign_scene(t_scene *scene, int fd);
 
 //
 void	ray_trace(t_param *param, t_ray *ray);
-
 float	float_abs(float f);
+float	max_float(float f1, float f2);
 
 // intersections
-float	intersect_plane(t_param *param, t_ray *ray, t_plane *plane);
-float	intersect_sphere(t_param *param, t_ray *ray, t_sphere *sphere);
-float	intersect_cylinder(t_param *param, t_ray *ray, t_cylinder *cylinder);
+void		get_next_intersection(t_param *param, t_ray *ray);
+t_vector	sub_vectors(t_vector *v1, t_vector *v2);
+float		intersect_plane(t_param *param, t_ray *ray, t_plane *plane);
+float		intersect_sphere(t_param *param, t_ray *ray, t_sphere *sphere);
+float		intersect_cylinder(t_param *param, t_ray *ray, t_cylinder *cylinder);
 
 // colors
-t_color	get_plane_color(t_param *param, t_ray *ray, t_plane *pl);
-t_color	get_sphere_color(t_param *param, t_ray *ray, t_sphere *sp);
-t_color	get_cylinder_color(t_param *param, t_ray *ray, t_cylinder *cy);
-t_color	get_cone_color(t_param *param, t_ray *ray, t_cone *cn);
+t_color		get_plane_color(t_param *param, t_ray *ray, t_plane *pl);
+t_color		get_sphere_color(t_param *param, t_ray *ray, t_sphere *sp);
+t_color		get_cylinder_color(t_param *param, t_ray *ray, t_cylinder *cy);
+// t_color	get_cone_color(t_param *param, t_ray *ray, t_cone *cn);
 
 #endif
