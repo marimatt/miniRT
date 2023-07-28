@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 00:38:04 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/28 01:27:03 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/28 11:38:39 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	update_ray_color(t_param *param, t_ray *ray, int counter)
 
 	if (counter > 0)
 	{
-		reflect = 0.001f * exp(-counter / 2);
+		reflect = 0.1f * exp(-counter / 2);
 		ray->color.r = (ray->color.r * (1.0f - reflect) + color.r * reflect);
 		ray->color.g = (ray->color.g * (1.0f - reflect) + color.g * reflect);
 		ray->color.b = (ray->color.b * (1.0f - reflect) + color.b * reflect);
