@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 00:24:46 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/28 01:16:13 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/28 16:13:28 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,65 @@ int	is_line_cylinder(char **splt, t_scene *scene, int n_splt)
 	cylinder->ms = 0.5f;
 	cylinder->met = 0.5f;
 	assign_something(&(scene->cylinders), (void *)cylinder, scene->n_cy);
+	scene->n_cy += 1;
+	return (1);
+}
+
+
+int	is_line_cone(char **splt, t_scene *scene, int n_splt)
+{
+	t_cone	*cone;
+
+	printf("parsing line cone\n");
+	if (n_splt != 6)
+	{
+		printf("error parsing file (1)\n");
+		exit(1);
+	}
+	cone = (t_cone *)malloc(sizeof(t_cone));
+	if (cone == NULL)
+	{
+		printf("could not malloc for a new cone\n");
+		exit(1);
+	}
+	if (parse_vector_string(splt[1], &(cone->position)) < 0)
+	{
+		printf("error parsing file(2)\n");
+		exit(1);
+	}
+	if (parse_vector_string(splt[2], &(cone->orientation)) < 0)
+	{
+		printf("error parsing file(3)\n");
+		exit(1);
+	}
+	cone->angle = ft_atof(splt[3]);
+	if (parse_color_string(splt[5], \
+		&(cone->color.r), &(cone->color.g), &(cone->color.b)) < 0)
+	{
+		printf("error parsing file (2): colors : %d, %d, %d\n", cone->color.r, cone->color.g, cone->color.b);
+		exit(1);
+	}
+
+	cone->orientation.sq_norm = get_squared_norm(&(cone->orientation));
+
+	if (cone->orientation.sq_norm > 1.0f || \
+		cone->angle <= 0.0f || cone->angle >= 180.0f || \
+		cone->color.r < 0 || cone->color.r > 255 || \
+		cone->color.g < 0 || cone->color.g > 255 || \
+		cone->color.b < 0 || cone->color.b > 255)
+	{
+		printf("error parsing file(4)\n");
+		exit(1);
+	}
+	cone->u = get_perpedincular(&(cone->orientation));
+	cone->v = cross_product(&(cone->u), &(cone->orientation));
+	normalize_vector(&(cone->u), sqrt(get_squared_norm(&(cone->u))));
+	normalize_vector(&(cone->v), sqrt(get_squared_norm(&(cone->v))));
+	cone->ma = 1.0f;
+	cone->ml = 1.0f;
+	cone->ms = 0.5f;
+	cone->met = 0.5f;
+	assign_something(&(scene->cones), (void *)cone, scene->n_cy);
 	scene->n_cy += 1;
 	return (1);
 }

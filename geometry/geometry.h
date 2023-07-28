@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 01:05:25 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/26 23:06:09 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/28 14:16:56 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,18 @@ typedef struct s_sphere{
 	t_color		color;
 }				t_sphere;
 
-// typedef struct s_cone{
-// 	t_vector	position;
-// 	float		diameter;
-// 	t_color		color;
-// }				t_cone;
+typedef struct s_cone{
+	t_vector	orientation;
+	t_vector	position;
+	t_vector	u;
+	t_vector	v;
+	float		angle;
+	float		ma;
+	float		ml;
+	float		ms;
+	float		met;
+	t_color		color;
+}				t_cone;
 
 float		get_squared_norm(t_vector *v);
 void		normalize_vector(t_vector *v, float norm);

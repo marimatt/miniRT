@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:52:11 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/27 23:57:46 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/28 14:04:37 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,25 @@ int	init_all(t_param *param, const char *file_name)
 void	print_vector(t_vector v, const char *str)
 {
 	printf("%s = %f, %f, %f\n", str, v.x, v.y, v.z);
+}
+
+t_vector	get_perpedincular(t_vector *v)
+{
+	t_vector	perp;
+
+    if (float_abs(v->z) < float_abs(v->x))
+	{
+		perp.x = v->y;
+		perp.y = -v->x;
+		perp.z = 0.0f;
+	}
+	else
+	{
+		perp.x = 0.0f;
+		perp.y = -v->z;
+		perp.z = v->y;
+	}
+	return (perp);
 }
 
 int main(int argc, char **argv)

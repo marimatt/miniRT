@@ -6,7 +6,7 @@
 /*   By: marimatt <marimatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 00:38:04 by marimatt          #+#    #+#             */
-/*   Updated: 2023/07/28 11:38:39 by marimatt         ###   ########.fr       */
+/*   Updated: 2023/07/28 15:31:31 by marimatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	update_ray_color(t_param *param, t_ray *ray, int counter)
 
 	if (counter > 0)
 	{
-		reflect = 0.1f * exp(-counter / 2);
+		reflect = 0.5f * exp(-counter / 2);
 		ray->color.r = (ray->color.r * (1.0f - reflect) + color.r * reflect);
 		ray->color.g = (ray->color.g * (1.0f - reflect) + color.g * reflect);
 		ray->color.b = (ray->color.b * (1.0f - reflect) + color.b * reflect);
@@ -72,6 +72,16 @@ void	vector_scalar_mult(t_vector *v, float scalar)
 	v->z *= scalar;
 }
 
+void	add_infinity_color(t_ray *ray, int counter)
+{
+	float	reflect;
+
+	reflect = 0.5f * exp(-counter / 2);
+	ray->color.r = (ray->color.r * (1.0f - reflect) + 0.0f);
+	ray->color.g = (ray->color.g * (1.0f - reflect) + 0.0f);
+	ray->color.b = (ray->color.b * (1.0f - reflect) + 0.0f);
+}
+
 void ray_trace(t_param *param, t_ray *ray)
 {
 	int		counter;
@@ -83,7 +93,10 @@ void ray_trace(t_param *param, t_ray *ray)
 		get_next_intersection(param, ray);
 
 		if (ray->hit_obj_id < 0 || ray->t >= MAX_DIST)
+		{
+			add_infinity_color(ray, counter);
 			break ;
+		}
 
 		ray->pos_hit = vector_composition(&ray->origin, &ray->direction, 1.0f, 0.9999 *ray->t);
 

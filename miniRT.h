@@ -117,4 +117,6 @@ t_color		get_sphere_color(t_param *param, t_ray *ray, t_sphere *sp);
 t_color		get_cylinder_color(t_param *param, t_ray *ray, t_cylinder *cy);
 // t_color	get_cone_color(t_param *param, t_ray *ray, t_cone *cn);
 
+t_vector	get_perpedincular(t_vector *v);
+
 #endif
